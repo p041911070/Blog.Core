@@ -3,7 +3,7 @@ using System;
 
 namespace Blog.Core.Model.Models
 {
-    public class Advertisement : RootEntity
+    public class Advertisement : RootEntityTkey<int>
     {
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Blog.Core.Model.Models
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(Length = int.MaxValue, IsNullable = true)]
+        [SugarColumn(Length = 2000, IsNullable = true)]
         public string Remark { get; set; }
 
         /// <summary>

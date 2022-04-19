@@ -1,15 +1,8 @@
-using Blog.Core.Common;
-using Blog.Core.Controllers;
-using Blog.Core.IRepository;
 using Blog.Core.IServices;
 using Blog.Core.Model.Models;
-using Moq;
 using Xunit;
 using System;
 using System.Linq;
-using Blog.Core.Services;
-using AutoMapper;
-using Blog.Core.Repository;
 using Autofac;
 
 namespace Blog.Core.Tests
@@ -67,6 +60,8 @@ namespace Blog.Core.Tests
         [Fact]
         public async void Delete_Blog_Test()
         {
+            Add_Blog_Test();
+
             var deleteModel = (await blogArticleServices.Query(d => d.btitle == "xuint test title")).FirstOrDefault();
 
             Assert.NotNull(deleteModel);

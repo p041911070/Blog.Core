@@ -1,34 +1,28 @@
 ﻿using SqlSugar;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Core.Model.Models
 {
     /// <summary>
     /// Tibug 博文
     /// </summary>
-    public class TopicDetail : RootEntity
+    public class TopicDetail : TopicDetailRoot<int>
     {
         public TopicDetail()
         {
             this.tdUpdatetime = DateTime.Now;
         }
 
-        public int TopicId { get; set; }
-
         [SugarColumn(Length = 200, IsNullable = true)]
-        public string tdLogo { get; set; } 
+        public string tdLogo { get; set; }
 
         [SugarColumn(Length = 200, IsNullable = true)]
         public string tdName { get; set; }
 
-        [SugarColumn(Length = int.MaxValue , IsNullable = true)]
+        [SugarColumn(Length = 2000, IsNullable = true)]
         public string tdContent { get; set; }
 
-        [SugarColumn(Length = 400, IsNullable = true)]
+        [SugarColumn(Length = 2000, IsNullable = true)]
         public string tdDetail { get; set; }
 
         [SugarColumn(Length = 200, IsNullable = true)]

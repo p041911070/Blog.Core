@@ -1,48 +1,67 @@
 ﻿using Blog.Core.IRepository.UnitOfWork;
 using SqlSugar;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Blog.Core.Repository.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-
         private readonly ISqlSugarClient _sqlSugarClient;
+
+        private int _tranCount { get; set; }
 
         public UnitOfWork(ISqlSugarClient sqlSugarClient)
         {
             _sqlSugarClient = sqlSugarClient;
+            _tranCount = 0;
         }
 
-        public ISqlSugarClient GetDbClient()
+        /// <summary>
+        /// 获取DB，保证唯一性
+        /// </summary>
+        /// <returns></returns>
+        public SqlSugarScope GetDbClient()
         {
-
-            return _sqlSugarClient;
+            // 必须要as，后边会用到切换数据库操作
+            return _sqlSugarClient as SqlSugarScope;
         }
 
         public void BeginTran()
         {
-            GetDbClient().Ado.BeginTran(); 
+            lock (this)
+            {
+                _tranCount++;
+                GetDbClient().BeginTran();
+            }
         }
 
         public void CommitTran()
         {
-            try
+            lock (this)
             {
-                GetDbClient().Ado.CommitTran(); //
-            }
-            catch (Exception ex)
-            {
-                GetDbClient().Ado.RollbackTran();
-                throw ex;
+                _tranCount--;
+                if (_tranCount == 0)
+                {
+                    try
+                    {
+                        GetDbClient().CommitTran();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        GetDbClient().RollbackTran();
+                    }
+                }
             }
         }
 
         public void RollbackTran()
         {
-            GetDbClient().Ado.RollbackTran();
+            lock (this)
+            {
+                _tranCount--;
+                GetDbClient().RollbackTran();
+            }
         }
 
     }

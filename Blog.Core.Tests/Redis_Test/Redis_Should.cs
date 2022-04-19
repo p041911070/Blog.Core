@@ -1,18 +1,9 @@
-using Blog.Core.Common;
-using Blog.Core.Controllers;
-using Blog.Core.IRepository;
-using Blog.Core.IServices;
-using Blog.Core.Model.Models;
-using Moq;
 using Xunit;
-using System;
-using Autofac;
 
 namespace Blog.Core.Tests
 {
     public class Redis_Should
     {
-        private IRedisCacheManager _redisCacheManager;
         DI_Test dI_Test = new DI_Test();
 
         public Redis_Should()

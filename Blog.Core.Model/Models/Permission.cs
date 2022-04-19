@@ -1,16 +1,13 @@
 ﻿using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Core.Model.Models
 {
     /// <summary>
     /// 路由菜单表
     /// </summary>
-    public class Permission : RootEntity
+    public class Permission : PermissionRoot<int>
     {
         public Permission()
         {
@@ -37,26 +34,18 @@ namespace Blog.Core.Model.Models
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsHide { get; set; } = false;
+        /// <summary>
+        /// 是否keepAlive
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public bool? IskeepAlive { get; set; } = false;
 
 
         /// <summary>
         /// 按钮事件
         /// </summary>
-        [SugarColumn(IsNullable = true)]
+        [SugarColumn(Length = 100, IsNullable = true)]
         public string Func { get; set; }
-
-
-
-        /// <summary>
-        /// 上一级菜单（0表示上一级无菜单）
-        /// </summary>
-        public int Pid { get; set; }
-
-
-        /// <summary>
-        /// 接口api
-        /// </summary>
-        public int Mid { get; set; }
 
         /// <summary>
         /// 排序
@@ -114,10 +103,6 @@ namespace Blog.Core.Model.Models
         public bool? IsDeleted { get; set; }
 
 
-
-
-        [SugarColumn(IsIgnore = true)]
-        public List<int> PidArr { get; set; }
         [SugarColumn(IsIgnore = true)]
         public List<string> PnameArr { get; set; } = new List<string>();
         [SugarColumn(IsIgnore = true)]
@@ -125,7 +110,14 @@ namespace Blog.Core.Model.Models
         [SugarColumn(IsIgnore = true)]
         public string MName { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
+        public bool hasChildren { get; set; } = true;
 
+        [SugarColumn(IsIgnore = true)]
+        public List<Permission> Children { get; set; } = new List<Permission>();
+
+        [SugarColumn(IsIgnore = true)]
+        public Modules Module { get; set; }
 
         //public virtual ICollection<ModulePermission> ModulePermission { get; set; }
         //public virtual ICollection<RoleModulePermission> RoleModulePermission { get; set; }

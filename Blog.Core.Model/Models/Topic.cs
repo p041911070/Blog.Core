@@ -1,16 +1,13 @@
 ﻿using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Core.Model.Models
 {
     /// <summary>
     /// Tibug 类别
     /// </summary>
-    public class Topic:RootEntity
+    public class Topic : RootEntityTkey<int>
     {
         public Topic()
         {

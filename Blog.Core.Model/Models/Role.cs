@@ -1,16 +1,12 @@
 ﻿using SqlSugar;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Core.Model.Models
 {
     /// <summary>
     /// 角色表
     /// </summary>
-    public class Role : RootEntity
+    public class Role : RootEntityTkey<int>
     {
         public Role()
         {
@@ -50,13 +46,24 @@ namespace Blog.Core.Model.Models
         /// </summary>
         public int OrderSort { get; set; }
         /// <summary>
+        /// 自定义权限的部门ids
+        /// </summary>
+        [SugarColumn(Length = 500, IsNullable = true)]
+        public string Dids { get; set; }
+        /// <summary>
+        /// 权限范围
+        /// -1 无任何权限；1 自定义权限；2 本部门；3 本部门及以下；4 仅自己；9 全部；
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public int AuthorityScope { get; set; } = -1;
+        /// <summary>
         /// 是否激活
         /// </summary>
         public bool Enabled { get; set; }
         /// <summary>
         /// 创建ID
         /// </summary>
-        [SugarColumn( IsNullable = true)]
+        [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
         /// 创建者
@@ -66,22 +73,22 @@ namespace Blog.Core.Model.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        [SugarColumn( IsNullable = true)]
+        [SugarColumn(IsNullable = true)]
         public DateTime? CreateTime { get; set; } = DateTime.Now;
         /// <summary>
         /// 修改ID
         /// </summary>
-        [SugarColumn( IsNullable = true)]
+        [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
         /// 修改者
         /// </summary>
-        [SugarColumn( IsNullable = true)]
+        [SugarColumn(IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
-        [SugarColumn( IsNullable = true)]
+        [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; } = DateTime.Now;
 
 
